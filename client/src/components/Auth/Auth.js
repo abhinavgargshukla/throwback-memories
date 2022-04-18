@@ -7,18 +7,32 @@ import Input from './Input';
 import Icon from './icon';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+
+import {signin,signup} from '../../actions/auth';
 const Auth = () => {
     const classes=useStyles();
     let navigate = useNavigate();
     const[isSignup,setIsSignup]=useState(false);
     const dispatch=useDispatch();
-    
+    const initialState={firstName:'',lastName:'',email:'',password:'',confirmPassword:''};
     const [showPassword,setShowPassword]=useState(false);
+    const [formData,setFormData]=useState(initialState);
 
-    const handleSubmit=()=>{
 
+    const handleSubmit=(e)=>{
+            e.preventDefault(); 
+            console.log(formData);
+
+            if(isSignup){
+                 dispatch(signup(formData,navigate));
+            }
+            else{
+                dispatch(signin(formData,navigate));
+            }
     };
-    const handleChange=()=>{
+    const handleChange=(e)=>{
+        setFormData({...formData,[e.target.name]:e.target.value});
+
 
     };
     const handleShowPassword=()=>
